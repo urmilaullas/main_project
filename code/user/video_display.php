@@ -1,4 +1,7 @@
-
+<?php
+	session_start();
+	include "dbconnection.php";
+?>
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -74,7 +77,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 								<ul>
 									<li class="dropdown-header">Helth Care</li>
 									<li><a href="user_medical_camp.php">Medical Camp</a></li>
-									<li><a href="user_reg_camp.php">Registerd Medical Camps</a></li>
+									<li><a href="">Registerd Medical Camps</a></li>
 									<li><a href="user_doctors_list.php">Doctors</a></li>
 								</ul>
 							</li>
@@ -132,7 +135,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<li>
 					<a href="user_home.html">Home</a>
 					
+					<span>| |</span>
 				</li>
+				<li>Trainings</li>
 				
 			</ul>
 		</div>
@@ -144,6 +149,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="container">
 			<h3 class="tittle"></h3>
 			<div class="inner_sec_info">
+				
+				<div class="profile">
+						<?php 
+							$tid=$_GET['id'];
+							$sql="select tutrl_name,description,amount,video from tbl_tutorial where tutrl_id=$tid;";
+							$res=mysqli_query($con,$sql);
+							$r=mysqli_fetch_assoc($res);
+							echo "<div align='center'><video width='800' height='800' controls>
+								<source src='../tutorial_video/".$r['video']."'type='video/mp4'></video>
+								<br/><h4>".$r['tutrl_name']."<br/>".$r['description']."<br/>Amount : ".$r['amount']."</h4></div>";
+								
+								
+
+						?>
+			
+			
+				</div>
 			</div>
 		</div>
 	</div>

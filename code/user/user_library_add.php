@@ -97,6 +97,9 @@ function Validate(oForm) {
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 	<!-- //Web-fonts -->
 
+	
+	
+	
 </head>
 
 <body>
@@ -128,8 +131,9 @@ function Validate(oForm) {
 							<li class="col-md-3 col-sm-4 col-xs-6">
 								<ul>
 									<li class="dropdown-header">Helth Care</li>
-									<li><a href="#">Medical Camp</a></li>
-									<li><a href="#">Appoinments</a></li>
+									<li><a href="user_medical_camp.php">Medical Camp</a></li>
+									<li><a href="user_reg_camp.php">Registerd Medical Camps</a></li>
+									<li><a href="user_doctors_list.php">Doctors</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
@@ -144,13 +148,15 @@ function Validate(oForm) {
 									<li class="dropdown-header">Trainings</li>
 									<li><a href="user_trainings_add.php">Add</a></li>
 									<li><a href="user_trainings_view.php">View</a></li>
+									<li><a href="user_my_trainings.php">My Trainings</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
 								<ul>
 									<li class="dropdown-header">Library</li>
 									<li><a href="user_library_add.php">Add Books</a></li>
-									<li><a href="#">View Books</a></li>
+									<li><a href="user_library_view.php">View Books</a></li>
+									<li><a href="user_my_books.php">My Books</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
@@ -158,6 +164,7 @@ function Validate(oForm) {
 									<li class="dropdown-header">Creative Corner</li>
 									<li><a href="user_creative_add.php">Add</a></li>
 									<li><a href="user_creative_view.php">View</a></li>
+									<li><a href="user_my_creative.php">My Creative Things</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -208,7 +215,6 @@ function Validate(oForm) {
 									<option value="">select category</option>
 									<?php
 										$qerry="Select * from tbl_books_ctg";
-										echo $qerry;
 										$dd_res=mysqli_query($con,$qerry);
 										while($r=mysqli_fetch_row($dd_res))
 										{ 

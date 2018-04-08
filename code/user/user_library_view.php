@@ -92,15 +92,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<li class="col-md-3 col-sm-4 col-xs-6">
 								<ul>
 									<li class="dropdown-header">Helth Care</li>
-									<li><a href="#">Medical Camp</a></li>
-									<li><a href="#">Appoinments</a></li>
+									<li><a href="user_medical_camp.php">Medical Camp</a></li>
+									<li><a href="user_reg_camp.php">Registerd Medical Camps</a></li>
+									<li><a href="user_doctors_list.php">Doctors</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
 								<ul>
 									<li class="dropdown-header">Cleaning</li>
 									<li><a href="user_cleaning_rqst.php">Cleaning Request </a></li>
-									<li><a href="#">View Status</a></li>
+									<li><a href="user_cleaning_status.php">View Status</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
@@ -108,13 +109,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<li class="dropdown-header">Trainings</li>
 									<li><a href="user_trainings_add.php">Add</a></li>
 									<li><a href="user_trainings_view.php">View</a></li>
+									<li><a href="user_my_trainings.php">My Trainings</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
 								<ul>
 									<li class="dropdown-header">Library</li>
 									<li><a href="user_library_add.php">Add Books</a></li>
-									<li><a href="#">View Books</a></li>
+									<li><a href="user_library_view.php">View Books</a></li>
+									<li><a href="user_my_books.php">My Books</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
@@ -122,6 +125,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<li class="dropdown-header">Creative Corner</li>
 									<li><a href="user_creative_add.php">Add</a></li>
 									<li><a href="user_creative_view.php">View</a></li>
+									<li><a href="user_my_creative.php">My Creative Things</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -148,7 +152,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					
 					<span>| |</span>
 				</li>
-				<li>Cleaning</li>
+				<li>Library</li>
 			
 			</ul>
 		</div>
@@ -158,9 +162,35 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- /inner_content -->
 	<div class="banner_bottom">
 		<div class="container">
-			<h3 class="tittle">Cleaning</h3>
+			<h3 class="tittle">Library</h3>
 			<div class="inner_sec_info">
-				<div class="">
+				<div class="profile" style="width:100%; margin-left:350px;">
+				<form method="post">
+				<ul class="nav nav-tabs" role="tablist" align="center">
+				<li>
+						<label for="category" style="margin-left:20px;margin-right:20px;">Categories</label>
+				</li>
+				<li>
+						<select id="category" name="slctcategory" color="blue" style="width:100%;">
+						<option value="0">select category</option>
+					<?php
+						$qerry="Select * from tbl_books_ctg";
+						$dd_res=mysqli_query($con,$qerry);
+						while($r=mysqli_fetch_row($dd_res))
+						{ 
+							echo "<option value='$r[0]'> $r[1] </option>";
+						}
+					?>
+				</select>
+               </li>
+			   <li>
+				<input type="submit" value="Search" style="margin-left:20px;width:200%;height:50px; ">
+			   </li>
+				</ul>					
+					
+				</div>	
+			
+				
 	
 
   
@@ -170,7 +200,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Cleaning Request Status</h3>
+              <h3 class="box-title">Library</h3>
 			  <br>
             </div>
             <!-- /.box-header -->
@@ -189,7 +219,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </thead>
                 <tbody>
 					<?php
+							if (isset($_POST['slctcategory']))
+						{
+							
+							$ctg_id=$_POST['slctcategory'];
+							echo"<script>document.getElementById('category').value=$ctg_id;</script>";
+							
+							if($ctg_id==0)
+							{
 							$sql="Select b.book_name,b.auther,b.language,b.description,b.book,b.image,c.ctg_name from tbl_books b inner join tbl_books_ctg c on b.ctg_id=c.ctg_id where status=1";
+							}
+							else
+							{
+							$sql="Select b.book_name,b.auther,b.language,b.description,b.book,b.image,c.ctg_name from tbl_books b inner join tbl_books_ctg c on b.ctg_id=c.ctg_id where status=1 and b.ctg_id=$ctg_id";
+							}
+						}
+							
+						else
+						{
+							$sql="Select b.book_name,b.auther,b.language,b.description,b.book,b.image,c.ctg_name from tbl_books b inner join tbl_books_ctg c on b.ctg_id=c.ctg_id where status=1";
+						}
+						
 							$res=mysqli_query($con,$sql);
 							$n=0;
 							while($r=mysqli_fetch_assoc($res))
@@ -203,17 +253,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<td>".$r['ctg_name']."</td>
 									<td>".$r['description']."</td>
 									<td>
-								<a href='../library/".$r['book']."' target='_blank'><img width='200' height='200' src='../library/".$r['image']."'></a></td><tr>";
+								<a href='../library/".$r['book']."' target='_blank'><img width='100' height='100' src='../library/".$r['image']."'></a></td></tr>";
 										
 							}
+						
+						
 					?>
                 </tbody>
                 <tfoot>
                 <tr>
                   <th>SlNo</th>
-                  <th>Subject</th>
+                  <th>Name</th>
+                  <th>Auther</th>
+                  <th>Language</th>
+                  <th>Category</th>
                   <th>Description</th>
-                  <th>Status</th>
+                  <th>Book</th>
                 </tr>
                 </tfoot>
               </table>

@@ -59,9 +59,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				</div>
 				<div class="sub-w3l">
 					<div class="sub-agile">
-						<label style="margin-right:120px">
+						<label style="margin-right:100px">
 							<span></span>Select User Type</label>
 					</div>
+						<input type="radio" name="usertype" id="admin" value="admin"  onchange="display()" required>
+                        <label for="admin">Admin</label>
 						<input type="radio" name="usertype" id="user" value="user"  onchange="display()" required>
                         <label for="user">Users</label>
 						<input type="radio" name="usertype" id="doctor" value="doctor" onchange="display()">

@@ -1,5 +1,15 @@
-
-<!DOCTYPE html>
+<?php
+session_start();
+include "dbconnection.php";
+ if(!empty($_GET["x"]))
+{
+	if($_GET["x"]==1)
+	echo "<script>alert('You Have successfully Registered For Medical Camp!!!');</script>";
+	else
+	echo "<script>alert('You Are Already Registered!!!');</script>";
+		
+} 
+?>
 <html lang="zxx">
 
 <head>
@@ -17,6 +27,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		function hideURLbar() {
 			window.scrollTo(0, 1);
 		}
+		
 	</script>
 	<!-- //Meta Tags -->
 	<!-- Style-sheets -->
@@ -42,6 +53,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 	<!-- //Web-fonts -->
 
+	
+	<style>
+		.popl-row td{
+			padding:10px;
+			border-bottom:10px;
+			margin-right=200px;
+		}
+	</style>
+	
 </head>
 
 <body>
@@ -109,7 +129,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<li><a href="user_my_creative.php">My Creative Things</a></li>
 								</ul>
 							</li>
-	
 						</ul>
 					</li>
 					<li><a href="user_complaints.php">Compliants</a></li>
@@ -132,8 +151,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<li>
 					<a href="user_home.html">Home</a>
 					
+					<span>| |</span>
 				</li>
-				
+				<li>Helth Care</li>
+			
 			</ul>
 		</div>
 	</div>
@@ -142,8 +163,107 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- /inner_content -->
 	<div class="banner_bottom">
 		<div class="container">
-			<h3 class="tittle"></h3>
+			<h3 class="tittle">Medical Camp</h3>
 			<div class="inner_sec_info">
+				<div class="profile" style="width:100%; margin-left:20px;">
+		<form method="post" >
+				<ul class="nav nav-tabs" role="tablist" align="center">
+				
+				<li>
+						<label for="date" style="margin-left:350px;margin-right:20px;">Date</label>
+				</li>
+				<li>
+						<select id="d" name="slctdate" color="blue" style="width:100%;" required>
+						<option value="0">select date</option>
+					<?php
+						$qerry="select distinct date from tbl_medical_camp where dctr_status=1 and status=1 and date>DATE_ADD(now(), INTERVAL 2 DAY)";
+						$dd_res=mysqli_query($con,$qerry);
+						while($r=mysqli_fetch_row($dd_res))
+						{ 
+							echo "<option value='$r[0]'> $r[0] </option>";
+						}
+					?>
+				</select>
+               </li>
+			   <li>
+				<input type="submit" name="submit" value="Search" style="margin-left:20px;width:200%;height:50px; ">
+			   </li>
+				</ul>					
+			</form>
+			
+			<?php
+			if(isset($_POST['submit']))
+			{
+				if(isset($_POST['slctdate']))
+				{
+			$dateslct=$_POST['slctdate'];
+			$_SESSION['dt']=$dateslct;
+			
+			
+			echo "<script>document.getElementById('d').value='$dateslct';</script>";
+			
+				}
+				$sql="select distinct camp_id,time,location from tbl_medical_camp where dctr_status=1 and status=1 and date='$dateslct'";
+				$res=mysqli_query($con,$sql);
+				while($r=mysqli_fetch_assoc($res))
+					{
+						$_SESSION['camp_id']=$r['camp_id'];
+						?>
+					<div class="popl-row" id="data">
+			
+					<form action="mc_reg.php" method="post">
+						<table align="center" cellpadding="20px" cellspacing="20px" width="90%" height="10%">
+							<tr>
+								<td>
+									<input type="label" value="Time">
+								</td>
+								<td>
+									<input type="text" name="txttime" disabled value="<?php echo $r[time]?>">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<input type="label" value="Location">
+								</td>
+								<td>
+									<input type="text" name="txtloction" disabled value="<?php echo $r[location]?>">
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<input type="label" value="Doctors Available">
+								</td>
+								<td>
+								<textarea  class="w3l_summary"  name="description" disabled maxlength="50" rows="5">
+									<?php 
+										$sql="select d.first_name,d.last_name,d.qualification,d.specialization from tbl_doctors d inner join tbl_medical_camp m on m.dctr_id=d.dctr_id where m.dctr_status=1 and m.status=1 and m.date='$dateslct'";
+										$res=mysqli_query($con,$sql);
+										$n=0;
+										while($r=mysqli_fetch_assoc($res))
+										{
+											$n=$n+1;
+											echo "\n".$n.". ".$r['first_name']." ".$r['last_name']." ".$r['qualification']." ".$r['specialization']."\n";
+											
+										}
+									?> 
+								</textarea>
+								</td>
+							</tr>
+							<tr colspan=2>							
+								<td>
+								<input type="submit" value="Register" style="width:50%;margin-left:70%;">
+								</td>
+								
+							</tr>
+						</table>	
+					</form>
+			
+				</div>
+				<?php	}	
+			}?>
+			
+				
+				</div>	
 			</div>
 		</div>
 	</div>

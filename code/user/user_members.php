@@ -92,15 +92,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<li class="col-md-3 col-sm-4 col-xs-6">
 								<ul>
 									<li class="dropdown-header">Helth Care</li>
-									<li><a href="#">Medical Camp</a></li>
-									<li><a href="#">Appoinments</a></li>
+									<li><a href="user_medical_camp.php">Medical Camp</a></li>
+									<li><a href="user_reg_camp.php">Registerd Medical Camps</a></li>
+									<li><a href="user_doctors_list.php">Doctors</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
 								<ul>
 									<li class="dropdown-header">Cleaning</li>
 									<li><a href="user_cleaning_rqst.php">Cleaning Request </a></li>
-									<li><a href="#">View Status</a></li>
+									<li><a href="user_cleaning_status.php">View Status</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
@@ -108,13 +109,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<li class="dropdown-header">Trainings</li>
 									<li><a href="user_trainings_add.php">Add</a></li>
 									<li><a href="user_trainings_view.php">View</a></li>
+									<li><a href="user_my_trainings.php">My Trainings</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
 								<ul>
 									<li class="dropdown-header">Library</li>
 									<li><a href="user_library_add.php">Add Books</a></li>
-									<li><a href="#">View Books</a></li>
+									<li><a href="user_library_view.php">View Books</a></li>
+									<li><a href="user_my_books.php">My Books</a></li>
 								</ul>
 							</li>
 							<li class="col-md-3 col-sm-4 col-xs-6">
@@ -122,6 +125,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<li class="dropdown-header">Creative Corner</li>
 									<li><a href="user_creative_add.php">Add</a></li>
 									<li><a href="user_creative_view.php">View</a></li>
+									<li><a href="user_my_creative.php">My Creative Things</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -181,7 +185,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                   <th>SlNo</th>
                   <th>Name</th>
                   <th>Age</th>
-                  <th>gender</th>
+                  <th>Gender</th>
                   <th>Blood Group</th>
                   <th>House Name</th>
                   <th>House Number</th>
@@ -215,7 +219,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                   <th>SlNo</th>
                   <th>Name</th>
                   <th>Age</th>
-                  <th>gender</th>
+                  <th>Gender</th>
                   <th>Blood Group</th>
                   <th>House Name</th>
                   <th>House Number</th>

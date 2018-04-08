@@ -1,11 +1,12 @@
-
-<!DOCTYPE html>
-<html lang="zxx">
-
+<?php
+session_start();
+include "dbconnection.php";
+$uid = $_SESSION['id'];
+?>
+<html>
 <head>
-	<title>User Home</title>
-	<!-- Meta Tags -->
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="keywords" content="Grounding Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
@@ -17,6 +18,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		function hideURLbar() {
 			window.scrollTo(0, 1);
 		}
+		
 	</script>
 	<!-- //Meta Tags -->
 	<!-- Style-sheets -->
@@ -42,11 +44,28 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 	<!-- //Web-fonts -->
 
-</head>
+	
+	
+	
+	
 
-<body>
-	<!-- header -->
-	<div class="header-w3layouts" id="home">
+
+
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>User Home</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.7 -->
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../css/dataTables.bootstrap.min.css">
+ 
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+
+<div class="header-w3layouts" id="home">
 		<!-- header-top -->
 		
 		<!--// header-top -->
@@ -109,7 +128,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 									<li><a href="user_my_creative.php">My Creative Things</a></li>
 								</ul>
 							</li>
-	
 						</ul>
 					</li>
 					<li><a href="user_complaints.php">Compliants</a></li>
@@ -132,8 +150,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<li>
 					<a href="user_home.html">Home</a>
 					
+					<span>| |</span>
 				</li>
-				
+				<li>Helth Care</li>
+			
 			</ul>
 		</div>
 	</div>
@@ -142,11 +162,91 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- /inner_content -->
 	<div class="banner_bottom">
 		<div class="container">
-			<h3 class="tittle"></h3>
+			<h3 class="tittle">Helth Care</h3>
 			<div class="inner_sec_info">
+				<div class="">
+	
+
+  
+    <!-- Logo -->
+    <!-- Header Navbar: style can be found in header.less -->
+            
+
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Doctors</h3>
+			  <br>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>SlNo</th>
+                  <th>Name</th>
+                  <th>Age</th>
+                  <th>gender</th>
+                  <th>Blood Group</th>
+                  <th>Qualification</th>
+                  <th>Specialization</th>
+                  <th>Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+					<?php
+					 		$sql="Select first_name,last_name,age,gender,blood_grp,qualification,specialization,phone from tbl_doctors";
+							$res=mysqli_query($con,$sql);
+							$n=0;
+							while($r=mysqli_fetch_assoc($res))
+							{
+								$n=$n+1;
+								echo"<tr>
+									<td>".$n."</td>
+									<td>".$r['first_name']." ".$r['last_name']."</td>
+									<td>".$r['age']."</td>
+									<td>".$r['gender']."</td>
+									<td>".$r['blood_grp']."</td>
+									<td>".$r['qualification']."</td>
+									<td>".$r['specialization']."</td>
+									<td>".$r['phone']."</td>
+									</tr>";
+								
+							}
+					?>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>SlNo</th>
+                  <th>Name</th>
+                  <th>Age</th>
+                  <th>gender</th>
+                  <th>Blood Group</th>
+                  <th>Qualification</th>
+                  <th>Specialization</th>
+                  <th>Phone</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+  
+  </div>
+			
 			</div>
 		</div>
 	</div>
+	
+	
 	
 	<!-- footer -->
 	<div class="footer-wthree-copyf">
@@ -163,6 +263,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- js files -->
 
 	<!-- Common js -->
+	
+	
+	
 	<script type="text/javascript" src="../js/user_jquery-2.1.4.min.js"></script>
 	<!--// Common js -->
 
@@ -251,6 +354,30 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 	<!-- js files -->
 
-</body>
+  
+  
+  
+  
+<!-- jQuery 3 -->
+<!--<script src="jquery.min.js"></script>-->
+<!-- Bootstrap 3.3.7 -->
+<!--<script src="bootstrap.min.js"></script>-->
+<!-- DataTables -->
+<script src="../js/jquery.dataTables.min.js"></script>
+<script src="../js/dataTables.bootstrap.min.js"></script>
 
+<script>
+  $(function () {
+    $('#example1').DataTable()
+    $('#example2').DataTable({
+      'paging'      : true,
+      'lengthChange': false,
+      'searching'   : false,
+      'ordering'    : true,
+      'info'        : true,
+      'autoWidth'   : false
+    })
+  })
+</script>
+</body>
 </html>

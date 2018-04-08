@@ -1,7 +1,12 @@
 <?php
 session_start();
 include "dbconnection.php";
+$uid=$_SESSION['id'];
 $uid = $_SESSION['id'];
+ if(!empty($_GET["x"]))
+{
+	echo "<script>alert('Your Training Has Been Deleted!!!');</script>";
+}
 ?>
 <html>
 <head>
@@ -35,6 +40,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<link href="../css/user_blog_2.css" rel="stylesheet" type='text/css' media="all" />
 	<!--// blog-css -->
 	<link href="../css/user_font-awesome.css" rel="stylesheet">
+		<link href="../css/user_video.css" type="text/css" rel="stylesheet" media="all">
 	<!-- // Font-awesome-css -->
 	<!-- //Style-sheets -->
 
@@ -152,7 +158,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					
 					<span>| |</span>
 				</li>
-				<li>Cleaning</li>
+				<li>Trainings</li>
 			
 			</ul>
 		</div>
@@ -162,8 +168,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- /inner_content -->
 	<div class="banner_bottom">
 		<div class="container">
-			<h3 class="tittle">Cleaning</h3>
+			<h3 class="tittle">Trainings</h3>
 			<div class="inner_sec_info">
+				<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="active">
+					<a href="#tab1" aria-controls="tab1" role="tab" data-toggle="tab">
+						My Videos
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="#tab2" aria-controls="tab2" role="tab" data-toggle="tab">
+						Payments
+					</a>
+				</li>
+				<li role="presentation">
+					<a href="#tab3" aria-controls="tab2" role="tab" data-toggle="tab">
+						Purchased Videos
+					</a>
+				</li>
+
+			</ul>
+			
 				<div class="">
 	
 
@@ -172,9 +197,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <!-- Header Navbar: style can be found in header.less -->
             
 
+	<div class="tab-content">
+	<div role="tabpanel" class="tab-pane  active" id="tab1">
           <div class="box">
             <div class="box-header">
-              <h3 class="box-title">Cleaning Request Status</h3>
+              <h3 class="box-title">My Tutorials</h3>
 			  <br>
             </div>
             <!-- /.box-header -->
@@ -183,50 +210,232 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 <thead>
                 <tr>
                   <th>SlNo</th>
-                  <th>Subject</th>
+                  <th>Tutorial Name</th>
+                  <th>Category</th>
                   <th>Description</th>
-                  <th>Status</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Video</th>
+                  <th>Total Purchase</th>
+				  <th>Status</th>
+				  <th>Delete</th>
+				  </tr>
                 </tr>
                 </thead>
                 <tbody>
 					<?php
-					 		$sql="Select subject,rqst,status from tbl_cleaning where user_id=$uid";
-							$res=mysqli_query($con,$sql);
-							$n=0;
+					 			$n=0;
+								$sql="Select tutrl_id,tutrl_name,ctg_id,description,type,amount,video,case
+when status=0 then 'Pending'
+when status=1 then 'Approved'
+when status=2 then 'Rejected'
+END AS status from tbl_tutorial where user_id=$uid; ";
+						$res=mysqli_query($con,$sql);
 							while($r=mysqli_fetch_assoc($res))
 							{
 								$n=$n+1;
+								$cid=$r['ctg_id'];
+								$sq="select ctg_name from tbl_tutrl_ctg where ctg_id=$cid";
+								$res1=mysqli_query($con,$sq);
+								$r1=mysqli_fetch_assoc($res1);
+								
+								$tid=$r['tutrl_id'];
+								$sq1="select count(*) as tot from tbl_user_tutrl_pay where tutrl_id=$tid;";
+								$res2=mysqli_query($con,$sq1);
+								$r2=mysqli_fetch_assoc($res2);
+								
+							
 								echo"<tr>
 									<td>".$n."</td>
-									<td>".$r['subject']."</td>
-									<td>".$r['rqst']."</td>";
-								if($r['status']==0)
-								{
-									echo"<td>Pending</td>
-										</tr>";
-								}
-								else
-								{
-									echo"<td>Completed</td>
-										</tr>";
-								}
+									<td>".$r['tutrl_name']."</td>
+									<td>".$r1['ctg_name']."</td>
+									<td>".$r['description']."</td>
+									<td>".$r['type']."</td>
+									<td>".$r['amount']."</td>
+									<td><video width='200' height='200' controls>
+									<source src='../tutorial_video/".$r['video']."'type='video/mp4'></video></td>
+									<td>".$r2['tot']."</td>
+									<td>".$r['status']."</td>
+									<td><a href=tutorial_reject.php?id=".$r['tutrl_id'].">
+											  <img src=../images/reject.png alt=Reject width='20px' height='20px' border=0>
+											</a></td>
+									</tr>";
+								
 							}
 					?>
                 </tbody>
                 <tfoot>
                 <tr>
                   <th>SlNo</th>
-                  <th>Subject</th>
+                  <th>Tutorial Name</th>
+                  <th>Category</th>
                   <th>Description</th>
-                  <th>Status</th>
+                  <th>Type</th>
+                  <th>Amount</th>
+                  <th>Video</th>
+                  <th>Total Purchase</th>
+				  <th>Status</th>
+				  <th>Delete</th>
+				  </tr>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+			<!-- /.box-body -->
+          </div>
+		  
+          <!-- /.box -->
+        </div>
+		
+		
+		
+		
+		<div role="tabpanel" class="tab-pane" id="tab2">
+		<div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Payments</h3>
+			  <br>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>SlNo</th>
+                  <th>Tutorial Name</th>
+                  <th>Category</th>
+                  <th>Video</th>
+                  <th>Amount</th>
+                  <th>Amount Credited</th>
+                  <th>Date</th>
+				  </tr>
+                </tr>
+                </thead>
+                <tbody>
+					<?php
+					 			$n=0;
+								$sql="select p.amount as pamount,p.pay_date,t.tutrl_name,t.ctg_id,t.video,t.amount from tbl_user_tutrl_pay p inner join tbl_tutorial t on t.tutrl_id=p.tutrl_id where t.user_id=$uid";
+						$res=mysqli_query($con,$sql);
+							while($r=mysqli_fetch_assoc($res))
+							{
+								$n=$n+1;
+								$cid=$r['ctg_id'];
+								$sq="select ctg_name from tbl_tutrl_ctg where ctg_id=$cid";
+								$res1=mysqli_query($con,$sq);
+								$r1=mysqli_fetch_assoc($res1);
+								
+								echo"<tr>
+									<td>".$n."</td>
+									<td>".$r['tutrl_name']."</td>
+									<td>".$r1['ctg_name']."</td>
+									<td><video width='200' height='200' controls>
+									<source src='../tutorial_video/".$r['video']."'type='video/mp4'></video></td>
+									<td>".$r['amount']."</td>
+									<td>".$r['pamount']."</td>
+									<td>".$r['pay_date']."</td>
+									</tr>";
+								
+							}
+					?>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>SlNo</th>
+                  <th>Tutorial Name</th>
+                  <th>Category</th>
+                  <th>Video</th>
+                  <th>Amount</th>
+                  <th>Amount Credited</th>
+                  <th>Total Purchase</th>
+				  </tr>
                 </tr>
                 </tfoot>
               </table>
             </div>
             <!-- /.box-body -->
           </div>
+		  
           <!-- /.box -->
         </div>
+    
+		
+		
+		
+		
+		
+		<div role="tabpanel" class="tab-pane" id="tab3">
+		<div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Purcahsed Tutorials</h3>
+			  <br>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>SlNo</th>
+                  <th>Tutorial Name</th>
+                  <th>Description</th>
+				  <th>Category</th>
+                  <th>Video</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+				  </tr>
+                </tr>
+                </thead>
+                <tbody>
+					<?php
+					 			$n=0;
+								$sql="select p.amount as pamount,p.pay_date,t.tutrl_name,t.ctg_id,t.video,t.amount,t.description from tbl_user_tutrl_pay p inner join tbl_tutorial t on t.tutrl_id=p.tutrl_id where p.user_id=$uid";
+						$res=mysqli_query($con,$sql);
+							while($r=mysqli_fetch_assoc($res))
+							{
+								$n=$n+1;
+								$cid=$r['ctg_id'];
+								$sq="select ctg_name from tbl_tutrl_ctg where ctg_id=$cid";
+								$res1=mysqli_query($con,$sq);
+								$r1=mysqli_fetch_assoc($res1);
+								
+								echo"<tr>
+									<td>".$n."</td>
+									<td>".$r['tutrl_name']."</td>
+									<td>".$r['description']."</td>
+									<td>".$r1['ctg_name']."</td>
+									<td><video width='200' height='200' controls>
+									<source src='../tutorial_video/".$r['video']."'type='video/mp4'></video></td>
+									<td>".$r['amount']."</td>
+									<td>".$r['pay_date']."</td>
+									</tr>";
+								
+							}
+					?>
+                </tbody>
+                <tfoot>
+                <tr>
+                  <th>SlNo</th>
+                  <th>Tutorial Name</th>
+                  <th>Description</th>
+				  <th>Category</th>
+                  <th>Video</th>
+                  <th>Amount</th>
+                  <th>Date</th>
+				  </tr>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+		  
+          <!-- /.box -->
+        </div>
+    
+		
+		
+		
+		
+		</div>
         <!-- /.col -->
       </div>
       <!-- /.row -->
