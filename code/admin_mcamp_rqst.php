@@ -62,6 +62,19 @@ input[type="label"]{
     margin-bottom: 1em;
 	font-weight:1000;
 }
+ input[type="text"],  input[type="number"],input[type="time"], input[type="date"], textarea,  select{
+    outline: none;
+    padding: 10px;
+    font-size: 14px;
+    color: #000;
+    background: none;
+    width: 100%;
+    letter-spacing: 1px;
+    border: none;
+    border-bottom: 2px solid rgba(197, 197, 197, 0.8);
+    margin-bottom: 1em;
+}
+
 </style>
 </head>
 <body>
@@ -75,7 +88,6 @@ input[type="label"]{
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand" href="">KRA Admin</a>
-                <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -107,22 +119,21 @@ input[type="label"]{
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-th"></i><a href="admin_tutorial_pending.php">Tutorial Approvals Pending</a></li>
                             <li><i class="menu-icon fa fa-th"></i><a href="admin_tutorial_approved.php">Approved Tutorials</a></li>
-							<li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Payments</a></li>
+							<li><i class="menu-icon fa fa-th"></i><a href="admin_tutorial_payment.php">Payments</a></li>
                         </ul>
                     </li>
 					<li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Library</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Add Books</a></li>
-							<li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">View Books</a></li>
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Pending Approvals</a></li>
-							<li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Approved Books</a></li>
+                            <li><i class="menu-icon fa fa-th"></i><a href="admin_add_books.php">Add Books</a></li>
+                            <li><i class="menu-icon fa fa-th"></i><a href="admin_library_pending.php">Pending Approvals</a></li>
+							<li><i class="menu-icon fa fa-th"></i><a href="admin_library_approved.php">View Books</a></li>
                         </ul>
                     </li>
 					<li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Creative Corner</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Pending Approvals</a></li>
+                            <li><i class="menu-icon fa fa-th"></i><a href="admin_creative_pending.php">Pending Approvals</a></li>
                             <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Approved List</a></li>
                         </ul>
                     </li>
@@ -131,15 +142,15 @@ input[type="label"]{
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Normal Users</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Pending Requests</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Approved Users</a></li>
+                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_user_pending.php">Pending Requests</a></li>
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="admin_approved_users.php">Approved Users</a></li>
                         </ul>
                     </li>
                     <li class="menu-item-has-children dropdown">
                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Doctors </a>
 						 <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Pending Requests</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Approved Doctors</a></li>
+                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_doctor_pending.php">Pending Requests</a></li>
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="admin_approved_doctors.php">Approved Doctors</a></li>
 						</ul>
                     </li>
                     <h3 class="menu-title">Extras</h3><!-- /.menu-title -->

@@ -204,7 +204,7 @@ include "dbconnection.php";
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
                             <li><a href="#">Trainings</a></li>
-                            <li class="active">Tutorial Approvals Pending</li>
+                            <li class="active">Payments</li>
                         </ol>
                     </div>
                 </div>
@@ -218,7 +218,7 @@ include "dbconnection.php";
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">Tutorial Approvals</strong>
+                            <strong class="card-title">Tutorial Payments</strong>
                         </div>
                         <div class="card-body">
                   <table id="bootstrap-data-table" class="table table-striped table-bordered">
@@ -228,15 +228,17 @@ include "dbconnection.php";
 									  <th scope="col">Tutorial Name</th>
 									  <th scope="col">Category</th>
 									  <th scope="col">Video</th>
-									  <th scope="col">Approve</th>
-									  <th scope="col">Reject</th>
+									  <th scope="col">Amount</th>
+									  <th scope="col">Date</th>
+
 								  </tr>
 							  </thead>
 							  <tbody>
 								<?php
 								$n=0;
-								$sql="Select tutrl_id,tutrl_name,ctg_id,video from tbl_tutorial where status=0";
-							$res=mysqli_query($con,$sql);
+								
+								$sql="Select t.tutrl_name,t.ctg_id,t.video,a.amount,a.pay_date from tbl_tutorial t inner join tbl_admin_payment a on t.tutrl_id=a.tutrl_id";
+								$res=mysqli_query($con,$sql);
 							while($r=mysqli_fetch_assoc($res))
 							{
 								$n=$n+1;
@@ -252,12 +254,9 @@ include "dbconnection.php";
                        				<td class='text-left'><video width='200' height='200' controls>
 									<source src='../tutorial_video/".$r['video']."'type='video/mp4'></video>
 									</td>
-                            	    <td class='text-left'><a href=tutorial_approve.php?id=".$r['tutrl_id'].">
-											  <img src=../images/approve.png alt=Approve width='20px' height='20px' border=0>
-											</a></td>
-                                	<td class='text-left'><a href=tutorial_reject.php?id=".$r['tutrl_id'].">
-											  <img src=../images/reject.png alt=Reject width='20px' height='20px' border=0>
-											</a></td>
+                        			<td class='text-left'>".$r['amount']."</td>
+                        			<td class='text-left'>".$r['pay_date']."</td>
+									
                        				</tr>";
 							
 								

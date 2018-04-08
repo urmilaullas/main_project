@@ -3,12 +3,8 @@ session_start();
 include "dbconnection.php";
 $date=$_POST['mcdate'];
 $time=$_POST['mctime'];
-echo $time;
-$t=date("h:i A.", $time); 
-echo $t;    
 $lctn=$_POST['location'];
-echo $lctn;
-$sq="select * from tbl_medical_camp where date=$date;";
+$sq="select * from tbl_medical_camp where date='$date';";
 $res=mysqli_query($con,$sq);
 				if(mysqli_num_rows($res)>0)
 					{
@@ -22,7 +18,7 @@ $res=mysqli_query($con,$sq);
 						</script>";
 						
 					}
-					/* else{				
+					  else{				
 							
 							$sq="select max(camp_id) from tbl_medical_camp";
 							$res=mysqli_query($con,$sq);
@@ -34,13 +30,13 @@ $res=mysqli_query($con,$sq);
 								while($rs=mysqli_fetch_assoc($dt))
 								{
 									$did=$rs['dctr_id'];
-									echo $did;
+									//echo $did;
 									$sql="insert into tbl_medical_camp(camp_id,date,time,location,dctr_id)values('$cid','$date','$time','$lctn','$did')";
-									echo $sql;
+									//echo $sql;
 									mysqli_query($con,$sql);
 								}
 							
 							header('location:admin_mcamp_rqst.php?x=1');
 					}
- */
+  
 ?>

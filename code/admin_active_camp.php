@@ -46,7 +46,6 @@ if(!empty($_GET["x"]))
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand" href="">KRA Admin</a>
-                <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
             </div>
 
             <div id="main-menu" class="main-menu collapse navbar-collapse">
@@ -78,22 +77,21 @@ if(!empty($_GET["x"]))
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="menu-icon fa fa-th"></i><a href="admin_tutorial_pending.php">Tutorial Approvals Pending</a></li>
                             <li><i class="menu-icon fa fa-th"></i><a href="admin_tutorial_approved.php">Approved Tutorials</a></li>
-							<li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Payments</a></li>
+							<li><i class="menu-icon fa fa-th"></i><a href="admin_tutorial_payment.php">Payments</a></li>
                         </ul>
                     </li>
 					<li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Library</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Add Books</a></li>
-							<li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">View Books</a></li>
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Pending Approvals</a></li>
-							<li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Approved Books</a></li>
+                            <li><i class="menu-icon fa fa-th"></i><a href="admin_add_books.php">Add Books</a></li>
+                            <li><i class="menu-icon fa fa-th"></i><a href="admin_library_pending.php">Pending Approvals</a></li>
+							<li><i class="menu-icon fa fa-th"></i><a href="admin_library_approved.php">View Books</a></li>
                         </ul>
                     </li>
 					<li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-th"></i>Creative Corner</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-th"></i><a href="forms-basic.html">Pending Approvals</a></li>
+                            <li><i class="menu-icon fa fa-th"></i><a href="admin_creative_pending.php">Pending Approvals</a></li>
                             <li><i class="menu-icon fa fa-th"></i><a href="forms-advanced.html">Approved List</a></li>
                         </ul>
                     </li>
@@ -102,15 +100,15 @@ if(!empty($_GET["x"]))
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Normal Users</a>
                         <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Pending Requests</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Approved Users</a></li>
+                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_user_pending.php">Pending Requests</a></li>
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="admin_approved_users.php">Approved Users</a></li>
                         </ul>
                     </li>
                     <li class="menu-item-has-children dropdown">
                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-tasks"></i>Doctors </a>
 						 <ul class="sub-menu children dropdown-menu">
-                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Pending Requests</a></li>
-                            <li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Approved Doctors</a></li>
+                            <li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_doctor_pending.php">Pending Requests</a></li>
+                            <li><i class="menu-icon ti-themify-logo"></i><a href="admin_approved_doctors.php">Approved Doctors</a></li>
 						</ul>
                     </li>
                     <h3 class="menu-title">Extras</h3><!-- /.menu-title -->
@@ -235,22 +233,30 @@ if(!empty($_GET["x"]))
 							  
 								<?php
 								$n=0;
+							
 								$sql="Select mc_id,camp_id,date,time,location,count(dctr_id) as dctr from tbl_medical_camp where status=1 and date>NOW() group by camp_id";
 								$res=mysqli_query($con,$sql);
 								while($r=mysqli_fetch_assoc($res))
-								{	
+								{
+									$n=$n+1;
 									$camp_id=$r['camp_id'];
 									$sq="select count(user_id) as patients from tbl_mc_patients where camp_id=$camp_id";
 									$res1=mysqli_query($con,$sq);
 									$r1=mysqli_fetch_assoc($res1);
-									$n=$n+1;
+									
+									
+									$sq2="Select count(dctr_id) as dctr from tbl_medical_camp where dctr_status=1 and camp_id=$camp_id";
+									$res2=mysqli_query($con,$sq2);
+									while($r2=mysqli_fetch_assoc($res2))
+									{
 									echo
 										"<tr>
+										
 										<th scope='row'>$n</th>
 										<td>".$r['date']."</td>
 										<td>".$r['time']."</td>
 										<td>".$r['location']."</td>
-										<td>".$r['dctr']."</td>
+										<td>".$r2['dctr']."</td>
 										<td>".$r1['patients']."</td>
 						
 										<td><a href=admin_camp_cancel.php?id=".$r['camp_id'].">
@@ -258,7 +264,7 @@ if(!empty($_GET["x"]))
 												</a></td>
 										</tr>";
 										
-									
+									}
 								}
 							?>
 							  

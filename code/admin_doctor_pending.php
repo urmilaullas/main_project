@@ -4,9 +4,9 @@ include "dbconnection.php";
  if(!empty($_GET["x"]))
 {
 	if($_GET["x"]==1)
-	echo "<script>alert('Tutorial Has Been Approved!!!');</script>";
+	echo "<script>alert('Request Has Been Accepted!!!');</script>";
 	else
-	echo "<script>alert('Tutorial Has Been Rejected!!!');</script>";
+	echo "<script>alert('Request Has Been Rejected!!!');</script>";
 		
 } 
 ?>
@@ -203,8 +203,8 @@ include "dbconnection.php";
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li><a href="#">Trainings</a></li>
-                            <li class="active">Tutorial Approvals Pending</li>
+                            <li><a href="#">Normal Users</a></li>
+                            <li class="active">Pending Requests</li>
                         </ol>
                     </div>
                 </div>
@@ -218,44 +218,48 @@ include "dbconnection.php";
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">Tutorial Approvals</strong>
+                            <strong class="card-title">User Approvals</strong>
                         </div>
                         <div class="card-body">
                   <table id="bootstrap-data-table" class="table table-striped table-bordered">
                   <thead>
 									<tr>
 									  <th scope="col">#</th>
-									  <th scope="col">Tutorial Name</th>
-									  <th scope="col">Category</th>
-									  <th scope="col">Video</th>
-									  <th scope="col">Approve</th>
+									  <th scope="col">Name</th>
+									  <th scope="col">Age</th>
+									  <th scope="col">Gender</th>
+									  <th scope="col">Blood Group</th>
+									  <th scope="col">House Name</th>
+									  <th scope="col">House Number</th>
+									  <th scope="col">Phone</th>
+									  <th scope="col">Email</th>
+									  <th scope="col">Accept</th>
 									  <th scope="col">Reject</th>
 								  </tr>
 							  </thead>
 							  <tbody>
-								<?php
-								$n=0;
-								$sql="Select tutrl_id,tutrl_name,ctg_id,video from tbl_tutorial where status=0";
+							<?php
+							$n=0;
+								$sql="select dctr_id,first_name,last_name,age,gender,blood_grp,qualification,specialization,phone,email from tbl_doctors where status=0";
 							$res=mysqli_query($con,$sql);
 							while($r=mysqli_fetch_assoc($res))
 							{
 								$n=$n+1;
-								$cid=$r['ctg_id'];
-								$sq="select ctg_name from tbl_tutrl_ctg where ctg_id=$cid";
-								$res1=mysqli_query($con,$sq);
-								$r1=mysqli_fetch_assoc($res1);
                         		echo
 									"<tr>
 									<th scope='row'>$n</th>
-                        			<td class='text-left'>".$r['tutrl_name']."</td>
-									<td class='text-left'>".$r1['ctg_name']."</td>
-                       				<td class='text-left'><video width='200' height='200' controls>
-									<source src='../tutorial_video/".$r['video']."'type='video/mp4'></video>
-									</td>
-                            	    <td class='text-left'><a href=tutorial_approve.php?id=".$r['tutrl_id'].">
+                        			<td class='text-left'>".$r['first_name']." ".$r['last_name']."</td>
+									<td class='text-left'>".$r['age']."</td>
+                       				<td class='text-left'>".$r['gender']."</td>
+                       				<td class='text-left'>".$r['blood_grp']."</td>
+                       				<td class='text-left'>".$r['qualification']."</td>
+                       				<td class='text-left'>".$r['specialization']."</td>
+                       				<td class='text-left'>".$r['phone']."</td>
+                       				<td class='text-left'>".$r['email']."</td>
+                            	    <td class='text-left'><a href=doctor_accept.php?id=".$r['dctr_id'].">
 											  <img src=../images/approve.png alt=Approve width='20px' height='20px' border=0>
 											</a></td>
-                                	<td class='text-left'><a href=tutorial_reject.php?id=".$r['tutrl_id'].">
+                                	<td class='text-left'><a href=doctor_reject.php?id=".$r['dctr_id'].">
 											  <img src=../images/reject.png alt=Reject width='20px' height='20px' border=0>
 											</a></td>
                        				</tr>";
