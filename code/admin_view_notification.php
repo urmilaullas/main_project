@@ -1,16 +1,11 @@
 <?php
 session_start();
 include "dbconnection.php";
- if(!empty($_GET["x"]))
+if(!empty($_GET["x"]))
 {
-	if($_GET["x"]==1)
-	echo "<script>alert('Complaint Has Been Accepted!!!');</script>";
-	else
-	echo "<script>alert('Complaint Has Been Rejected!!!');</script>";
-		
-} 
-?>
-<!doctype html>
+	echo "<script>alert('Notification Has Been Deleted!!!');</script>";
+}
+?><!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
@@ -205,8 +200,8 @@ include "dbconnection.php";
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li><a href="#">Trainings</a></li>
-                            <li class="active">Tutorial Approvals Pending</li>
+                            <li><a href="#">Notifications</a></li>
+                            <li class="active">View</li>
                         </ol>
                     </div>
                 </div>
@@ -220,46 +215,48 @@ include "dbconnection.php";
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">Tutorial Approvals</strong>
+                            <strong class="card-title">Notifications</strong>
                         </div>
                         <div class="card-body">
                   <table id="bootstrap-data-table" class="table table-striped table-bordered">
                   <thead>
 									<tr>
 									  <th scope="col">#</th>
-									  <th scope="col">Name</th>
-									  <th scope="col">Subject</th>
-									  <th scope="col">Complaint</th>
-									  <th scope="col">Accept</th>
-									  <th scope="col">Reject</th>
+									  <th scope="col">Notifications</th>
+									  <th scope="col">Type</th>
+									  <th scope="col">Receiver</th>
+									  <th scope="col">Date</th>
+									  <th scope="col">Delete</th>
 								  </tr>
 							  </thead>
 							  <tbody>
-							<?php
-							$n=0;
-								$sql="select u.first_name,u.last_name,c.cmp_id,c.subject,c.complaint from tbl_complaints c inner join tbl_user u on c.user_id=u.user_id where c.status=0";
-							$res=mysqli_query($con,$sql);
-							while($r=mysqli_fetch_assoc($res))
-							{
-								$n=$n+1;
-								$cid=$r['cmp_id'];
-                        		echo
-									"<tr>
-									<th scope='row'>$n</th>
-                        			<td class='text-left'>".$r['first_name']." ".$r['last_name']."</td>
-									<td class='text-left'>".$r['subject']."</td>
-                       				<td class='text-left'>".$r['complaint']."</td>
-                            	    <td class='text-left'><a href=complaint_accept.php?id=".$r['cmp_id'].">
-											  <img src=../images/approve.png alt=Approve width='20px' height='20px' border=0>
-											</a></td>
-                                	<td class='text-left'><a href=complaint_reject.php?id=".$r['cmp_id'].">
-											  <img src=../images/reject.png alt=Reject width='20px' height='20px' border=0>
-											</a></td>
-                       				</tr>";
-							
 								
-							}
-						?>
+							  
+								<?php
+								$n=0;
+							
+								$sql="Select * from tbl_notification";
+								$res=mysqli_query($con,$sql);
+								while($r=mysqli_fetch_assoc($res))
+								{
+									$n=$n+1;
+									$n_id=$r['nid'];
+									echo
+										"<tr>
+										
+										<th scope='row'>$n</th>
+										<td>".$r['notification']."</td>
+										<td>".$r['type']."</td>
+										<td>".$r['receiver']."</td>
+										<td>".$r['ndate']."</td>
+										<td><a href=delete_notification.php?id=".$r['nid'].">
+												  <img src=../images/trash.png alt=Reject width='20px' height='20px' border=0>
+												</a></td>
+										</tr>";
+										
+									}
+								
+							?>
 							  
 							  
 						  </tbody>

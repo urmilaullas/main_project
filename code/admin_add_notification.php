@@ -1,14 +1,9 @@
 <?php
-session_start();
-include "dbconnection.php";
- if(!empty($_GET["x"]))
+if(!empty($_GET["x"]))
 {
-	if($_GET["x"]==1)
-	echo "<script>alert('Complaint Has Been Accepted!!!');</script>";
-	else
-	echo "<script>alert('Complaint Has Been Rejected!!!');</script>";
-		
-} 
+	
+	echo "<script>alert('Notification Has Been Sended Successfully!!!');</script>";
+}
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -31,14 +26,56 @@ include "dbconnection.php";
     <link rel="stylesheet" href="assets/css/themify-icons.css">
     <link rel="stylesheet" href="assets/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="assets/css/lib/datatable/dataTables.bootstrap.min.css">
     <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
     <link rel="stylesheet" href="assets/scss/style.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
+	
+	
+<script>
+function checkDate() {
+   var selectedText = document.getElementById('datepicker').value;
+   var selectedDate = new Date(selectedText);
+   var now = new Date();
+   now.setDate(now.getDate()+10)
+   if (selectedDate < now) {
+    alert("Date must be after 10 days");
+   }
+  
+ }
+ </script>
+<style>
+td{
+	padding:10px;
+}
+input[type="label"]{
+    outline: none;
+    padding: 10px;
+    font-size: 14px;
+    color: #000;
+    background: none;
+    width: 100%;
+    letter-spacing: 1px;
+    border: none;
+    margin-bottom: 1em;
+	font-weight:1000;
+}
+ input[type="text"],  input[type="number"],input[type="time"], input[type="date"], textarea,  select{
+    outline: none;
+    padding: 10px;
+    font-size: 14px;
+    color: #000;
+    background: none;
+    width: 100%;
+    letter-spacing: 1px;
+    border: none;
+    border-bottom: 2px solid rgba(197, 197, 197, 0.8);
+    margin-bottom: 1em;
+}
 
+</style>
 </head>
 <body>
         <!-- Left Panel -->
@@ -160,7 +197,7 @@ include "dbconnection.php";
     <div id="right-panel" class="right-panel">
 
         <!-- Header-->
-            <header id="header" class="header">
+        <header id="header" class="header">
 
             <div class="header-menu">
 
@@ -205,8 +242,8 @@ include "dbconnection.php";
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li><a href="#">Trainings</a></li>
-                            <li class="active">Tutorial Approvals Pending</li>
+                            <li><a href="#">Notifications</a></li>
+                            <li class="active">Add</li>
                         </ol>
                     </div>
                 </div>
@@ -214,66 +251,65 @@ include "dbconnection.php";
         </div>
 
         <div class="content mt-3">
-            <div class="animated fadeIn">
-                <div class="row">
+            <div class="animated">
 
-                <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <strong class="card-title">Tutorial Approvals</strong>
-                        </div>
-                        <div class="card-body">
-                  <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                  <thead>
-									<tr>
-									  <th scope="col">#</th>
-									  <th scope="col">Name</th>
-									  <th scope="col">Subject</th>
-									  <th scope="col">Complaint</th>
-									  <th scope="col">Accept</th>
-									  <th scope="col">Reject</th>
-								  </tr>
-							  </thead>
-							  <tbody>
-							<?php
-							$n=0;
-								$sql="select u.first_name,u.last_name,c.cmp_id,c.subject,c.complaint from tbl_complaints c inner join tbl_user u on c.user_id=u.user_id where c.status=0";
-							$res=mysqli_query($con,$sql);
-							while($r=mysqli_fetch_assoc($res))
-							{
-								$n=$n+1;
-								$cid=$r['cmp_id'];
-                        		echo
-									"<tr>
-									<th scope='row'>$n</th>
-                        			<td class='text-left'>".$r['first_name']." ".$r['last_name']."</td>
-									<td class='text-left'>".$r['subject']."</td>
-                       				<td class='text-left'>".$r['complaint']."</td>
-                            	    <td class='text-left'><a href=complaint_accept.php?id=".$r['cmp_id'].">
-											  <img src=../images/approve.png alt=Approve width='20px' height='20px' border=0>
-											</a></td>
-                                	<td class='text-left'><a href=complaint_reject.php?id=".$r['cmp_id'].">
-											  <img src=../images/reject.png alt=Reject width='20px' height='20px' border=0>
-											</a></td>
-                       				</tr>";
-							
-								
-							}
-						?>
-							  
-							  
-						  </tbody>
-                  </table>
-                        </div>
+				<div class="card">
+				<div class="card-header">
+                        <strong class="card-title" v-if="headerText">Add Notification</strong>
                     </div>
-                </div>
+					<div class="card-body">
+					<form method="post" action="send_notification.php">
+						<table style="margin-left:150px;width:70%;">
+							<tr>
+							<td>
+								<input type="label" value="Notification Content">
+							</td>
+							<td>
+								<textarea name="ntfctn" required></textarea>
+							</td>
+							</tr>
+							<tr>
+							<td>
+								<input type="label" value="Receiver">
+							</td>
+							<td>
+								<select name="slctrcvr" required>
+									<option>Please Select</option>
+									<option value='user'>Users</option>
+									<option value='doctor'>Doctors</option>
+									<option value='all'>All</option>
+								</select>
+							</td>
+							</tr>
+							<tr>
+							<td>
+								<input type="Submit" value="Send Notification" class="btn btn-outline-primary btn-lg" style="width:175px;">
+							</td>
+							<td>
+								<input type="reset" value="Cancel" class="btn btn-outline-danger btn-lg" style="width:175px;">
+							</td>
+							</tr>
+						</table>
+					</form>
+
+				
+                    </div>
+				</div>
+			
+               
+
+                
+                
+
+                
+
+                
 
 
-                </div>
             </div><!-- .animated -->
         </div><!-- .content -->
-
-
+       
+			
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
@@ -283,26 +319,6 @@ include "dbconnection.php";
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/main.js"></script>
-
-
-    <script src="assets/js/lib/data-table/datatables.min.js"></script>
-    <script src="assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
-    <script src="assets/js/lib/data-table/dataTables.buttons.min.js"></script>
-    <script src="assets/js/lib/data-table/buttons.bootstrap.min.js"></script>
-    <script src="assets/js/lib/data-table/jszip.min.js"></script>
-    <script src="assets/js/lib/data-table/pdfmake.min.js"></script>
-    <script src="assets/js/lib/data-table/vfs_fonts.js"></script>
-    <script src="assets/js/lib/data-table/buttons.html5.min.js"></script>
-    <script src="assets/js/lib/data-table/buttons.print.min.js"></script>
-    <script src="assets/js/lib/data-table/buttons.colVis.min.js"></script>
-    <script src="assets/js/lib/data-table/datatables-init.js"></script>
-
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-          $('#bootstrap-data-table-export').DataTable();
-        } );
-    </script>
 
 
 </body>

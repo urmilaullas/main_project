@@ -1,16 +1,8 @@
 <?php
 session_start();
 include "dbconnection.php";
- if(!empty($_GET["x"]))
-{
-	if($_GET["x"]==1)
-	echo "<script>alert('Complaint Has Been Accepted!!!');</script>";
-	else
-	echo "<script>alert('Complaint Has Been Rejected!!!');</script>";
-		
-} 
-?>
-<!doctype html>
+
+?><!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
@@ -39,6 +31,7 @@ include "dbconnection.php";
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
 
+	
 </head>
 <body>
         <!-- Left Panel -->
@@ -129,7 +122,6 @@ include "dbconnection.php";
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Payments</a>
 						<ul class="sub-menu children dropdown-menu">
 							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Payments List</a></li>
-							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_payment_new.php">Add New Payments</a></li>
 							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Paid Users List</a></li>
 							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Payment Pending</a></li>
 						</ul>
@@ -205,8 +197,8 @@ include "dbconnection.php";
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li><a href="#">Trainings</a></li>
-                            <li class="active">Tutorial Approvals Pending</li>
+                            <li><a href="#">Medical Camp</a></li>
+                            <li class="active">Patients List</li>
                         </ol>
                     </div>
                 </div>
@@ -220,46 +212,62 @@ include "dbconnection.php";
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">Tutorial Approvals</strong>
+                            <strong class="card-title">Medical Camp Patients List</strong>
+							<hr>
+							<div>
+							<form method="post">
+								<label>Select Date</label>
+								<select class="form-control-sm form-control" name="dateslct" id="dt" style="width:200px; display:inline; margin-right:20px;">
+								<option>Please Select</option>
+								<?php
+									$sql="select distinct camp_id,date from tbl_medical_camp where status=1";
+									$res=mysqli_query($con,$sql);
+									while($r=mysqli_fetch_assoc($res))
+									{
+										echo "<option value=".$r['camp_id'].">".$r['date']."</option>";
+									}
+								?>
+								</select>
+								<input type="Submit" value="Search" name="submit" class="btn btn-outline-primary btn-lg" style="width:175px;">
+							</form>
+							</div>
                         </div>
                         <div class="card-body">
-                  <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                  <table id="bootstrap-data-table"  class="table table-striped table-bordered" >
                   <thead>
 									<tr>
 									  <th scope="col">#</th>
 									  <th scope="col">Name</th>
-									  <th scope="col">Subject</th>
-									  <th scope="col">Complaint</th>
-									  <th scope="col">Accept</th>
-									  <th scope="col">Reject</th>
+									  <th scope="col">Age</th>
+									  <th scope="col">Gender</th>
+									  <th scope="col">Blood Group</th>
 								  </tr>
 							  </thead>
 							  <tbody>
-							<?php
-							$n=0;
-								$sql="select u.first_name,u.last_name,c.cmp_id,c.subject,c.complaint from tbl_complaints c inner join tbl_user u on c.user_id=u.user_id where c.status=0";
-							$res=mysqli_query($con,$sql);
-							while($r=mysqli_fetch_assoc($res))
-							{
-								$n=$n+1;
-								$cid=$r['cmp_id'];
-                        		echo
-									"<tr>
-									<th scope='row'>$n</th>
-                        			<td class='text-left'>".$r['first_name']." ".$r['last_name']."</td>
-									<td class='text-left'>".$r['subject']."</td>
-                       				<td class='text-left'>".$r['complaint']."</td>
-                            	    <td class='text-left'><a href=complaint_accept.php?id=".$r['cmp_id'].">
-											  <img src=../images/approve.png alt=Approve width='20px' height='20px' border=0>
-											</a></td>
-                                	<td class='text-left'><a href=complaint_reject.php?id=".$r['cmp_id'].">
-											  <img src=../images/reject.png alt=Reject width='20px' height='20px' border=0>
-											</a></td>
-                       				</tr>";
-							
 								
-							}
-						?>
+							  
+								<?php
+								$n=0;
+								if(isset($_POST['submit']))
+								{
+									$camp_id=$_POST['dateslct'];
+									echo "<script>document.getElementById('dt').value='$camp_id';</script>";
+									$sql="Select u.first_name,u.last_name,u.age,u.gender,u.blood_grp from tbl_user u inner join tbl_mc_patients m on m.user_id=u.user_id where m.camp_id=$camp_id;";
+									$res=mysqli_query($con,$sql);
+									while($r=mysqli_fetch_assoc($res))
+									{	
+										$n=$n+1;
+										echo
+											"<tr>
+											<th scope='row'>$n</th>
+											<td>".$r['first_name']." ".$r['last_name']."</td>
+											<td>".$r['age']."</td>
+											<td>".$r['gender']."</td>
+											<td>".$r['blood_grp']."</td></tr>";
+										
+									}
+								}	
+							?>
 							  
 							  
 						  </tbody>

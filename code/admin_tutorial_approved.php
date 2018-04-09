@@ -65,6 +65,7 @@ include "dbconnection.php";
                             <li><i class="fa fa-stethoscope"></i><a href="admin_mcamp_rqst.php">Send Request</a></li>
 							<li><i class="fa fa-bars"></i><a href="admin_active_camp.php">Active Camp List</a></li>
                             <li><i class="fa fa-bars"></i><a href="admin_patient_list.php">Patients List</a></li>
+                            <li><i class="fa fa-bars"></i><a href="admin_doctor_list.php">Doctors List</a></li>
 							<li><i class="fa fa-bars"></i><a href="admin_camp_list.php">View Camp List</a></li>
                         </ul>
                     </li>
@@ -128,6 +129,7 @@ include "dbconnection.php";
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Payments</a>
 						<ul class="sub-menu children dropdown-menu">
 							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Payments List</a></li>
+							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_payment_new.php">Add New Payments</a></li>
 							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Paid Users List</a></li>
 							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Payment Pending</a></li>
 						</ul>
@@ -142,8 +144,8 @@ include "dbconnection.php";
 					<li class="menu-item-has-children dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Notifications</a>
 						<ul class="sub-menu children dropdown-menu">
-							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Add</a></li>
-							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">View</a></li>
+							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_add_notification.php">Add</a></li>
+							<li><i class="menu-icon ti-themify-logo"></i><a href="admin_view_notification.php">View</a></li>
 						</ul>
                     </li>
                 </ul>

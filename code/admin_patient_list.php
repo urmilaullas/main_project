@@ -58,6 +58,7 @@ include "dbconnection.php";
                             <li><i class="fa fa-stethoscope"></i><a href="admin_mcamp_rqst.php">Send Request</a></li>
 							<li><i class="fa fa-bars"></i><a href="admin_active_camp.php">Active Camp List</a></li>
                             <li><i class="fa fa-bars"></i><a href="admin_patient_list.php">Patients List</a></li>
+                            <li><i class="fa fa-bars"></i><a href="admin_doctor_list.php">Doctors List</a></li>
 							<li><i class="fa fa-bars"></i><a href="admin_camp_list.php">View Camp List</a></li>
                         </ul>
                     </li>
@@ -121,6 +122,7 @@ include "dbconnection.php";
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Payments</a>
 						<ul class="sub-menu children dropdown-menu">
 							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Payments List</a></li>
+							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_payment_new.php">Add New Payments</a></li>
 							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Paid Users List</a></li>
 							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Payment Pending</a></li>
 						</ul>
@@ -135,8 +137,8 @@ include "dbconnection.php";
 					<li class="menu-item-has-children dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Notifications</a>
 						<ul class="sub-menu children dropdown-menu">
-							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Add</a></li>
-							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">View</a></li>
+							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_add_notification.php">Add</a></li>
+							<li><i class="menu-icon ti-themify-logo"></i><a href="admin_view_notification.php">View</a></li>
 						</ul>
                     </li>
                 </ul>
@@ -216,7 +218,7 @@ include "dbconnection.php";
 							<div>
 							<form method="post">
 								<label>Select Date</label>
-								<select class="form-control-sm form-control" name="dateslct" style="width:200px; display:inline; margin-right:20px;">
+								<select class="form-control-sm form-control" name="dateslct" id="dt" style="width:200px; display:inline; margin-right:20px;">
 								<option>Please Select</option>
 								<?php
 									$sql="select distinct camp_id,date from tbl_medical_camp where status=1";
@@ -227,7 +229,7 @@ include "dbconnection.php";
 									}
 								?>
 								</select>
-								<input type="Submit" value="Send Request" name="submit" class="btn btn-outline-primary btn-lg" style="width:175px;">
+								<input type="Submit" value="Search" name="submit" class="btn btn-outline-primary btn-lg" style="width:175px;">
 							</form>
 							</div>
                         </div>
@@ -250,7 +252,7 @@ include "dbconnection.php";
 								if(isset($_POST['submit']))
 								{
 									$camp_id=$_POST['dateslct'];
-									echo "<script>document.getElementById('dateslct').value=".$camp_id."</script>";
+									echo "<script>document.getElementById('dt').value='$camp_id';</script>";
 									$sql="Select u.first_name,u.last_name,u.age,u.gender,u.blood_grp from tbl_user u inner join tbl_mc_patients m on m.user_id=u.user_id where m.camp_id=$camp_id;";
 									$res=mysqli_query($con,$sql);
 									while($r=mysqli_fetch_assoc($res))
