@@ -15,7 +15,7 @@ if($_POST["usertype"]=="admin")
 			$uid=$row["user_id"];
 			$_SESSION['id'] = $uid;
 			$_SESSION['username'] = $_POST['txtUserName'];
-			header('location:../admin/admin_home.html');
+			header('location:../admin/admin_home.php');
 		}
 			
 		else{	
@@ -55,7 +55,7 @@ elseif($_POST["usertype"]=="user")
 				$uid=$row["user_id"];
 				$_SESSION['id'] = $uid;
 				$_SESSION['username'] = $_POST['txtusername'];
-				header('location:user_home.html');
+				header('location:user_home.php');
 			}
 			elseif($row['status']==0)
 			{
@@ -113,7 +113,7 @@ else
 		{
 			$uid=$row["dctr_id"];
 			$_SESSION['id'] = $uid;
-			header('location:../doctor/doctor_home.html');
+			header('location:../doctor/doctor_home.php');
 		}
 		elseif($row['status']==0)
 		{
