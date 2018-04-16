@@ -290,6 +290,14 @@ input[type="label"]{
 							</tr>
 							<tr>
 							<td>
+								<input type="label" value="Amount">
+							</td>
+							<td>
+							<input type="number"  step="1" name="amount" />
+							</td>
+							</tr>
+							<tr>
+							<td>
 								<input type="Submit" name="sub" value="Add" class="btn btn-outline-primary btn-lg" style="width:175px;">
 							</td>
 							<td>
