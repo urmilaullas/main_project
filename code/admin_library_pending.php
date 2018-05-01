@@ -128,9 +128,9 @@ include "dbconnection.php";
 					<li class="menu-item-has-children dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Payments</a>
 						<ul class="sub-menu children dropdown-menu">
-							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Payments List</a></li>
+							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_payment_list.php">Payments List</a></li>
 							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_payment_new.php">Add New Payments</a></li>
-							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Paid Users List</a></li>
+							<li><i class="menu-icon ti-themify-logo"></i><a href="admin_paid_users.php">Paid Users List</a></li>
 							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Payment Pending</a></li>
 						</ul>
                     </li>

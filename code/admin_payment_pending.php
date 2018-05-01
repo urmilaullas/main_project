@@ -1,16 +1,8 @@
 <?php
 session_start();
 include "dbconnection.php";
- if(!empty($_GET["x"]))
-{
-	if($_GET["x"]==1)
-	echo "<script>alert('Tutorial Has Been Approved!!!');</script>";
-	else
-	echo "<script>alert('Tutorial Has Been Rejected!!!');</script>";
-		
-} 
-?>
-<!doctype html>
+
+?><!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9" lang=""> <![endif]-->
@@ -39,6 +31,7 @@ include "dbconnection.php";
 
     <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/html5shiv/3.7.3/html5shiv.min.js"></script> -->
 
+	
 </head>
 <body>
         <!-- Left Panel -->
@@ -205,8 +198,8 @@ include "dbconnection.php";
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li><a href="#">Trainings</a></li>
-                            <li class="active">Payments</li>
+                            <li><a href="#">Payments</a></li>
+                            <li class="active">Paid Users</li>
                         </ol>
                     </div>
                 </div>
@@ -220,50 +213,64 @@ include "dbconnection.php";
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">Tutorial Payments</strong>
+                            <strong class="card-title">Paid Users List</strong>
+							<hr>
+							<div>
+							<form method="post">
+								<label>Select Payment Category</label>
+								<select class="form-control-sm form-control" name="pay" id="dt" style="width:200px; display:inline; margin-right:20px;">
+								<option>Please Select</option>
+								<?php
+									$sql="select pay_ctg_id,ctg_name,pay_year from tbl_payment_ctg";
+									$res=mysqli_query($con,$sql);
+									while($r=mysqli_fetch_assoc($res))
+									{
+										echo "<option value=".$r['pay_ctg_id'].">".$r['ctg_name']." ".$r['pay_year']."</option>";
+									}
+								?>
+								</select>
+								<input type="Submit" value="Search" name="submit" class="btn btn-outline-primary btn-lg" style="width:175px;">
+							</form>
+							</div>
                         </div>
                         <div class="card-body">
-                  <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                  <table id="bootstrap-data-table"  class="table table-striped table-bordered" >
                   <thead>
 									<tr>
 									  <th scope="col">#</th>
-									  <th scope="col">Tutorial Name</th>
-									  <th scope="col">Category</th>
-									  <th scope="col">Video</th>
+									  <th scope="col">Name</th>
+									  <th scope="col">House Name</th>
 									  <th scope="col">Amount</th>
 									  <th scope="col">Date</th>
-
 								  </tr>
 							  </thead>
 							  <tbody>
+								
+							  
 								<?php
 								$n=0;
-								
-								$sql="Select t.tutrl_name,t.ctg_id,t.video,a.amount,a.pay_date from tbl_tutorial t inner join tbl_admin_payment a on t.tutrl_id=a.tutrl_id";
-								$res=mysqli_query($con,$sql);
-							while($r=mysqli_fetch_assoc($res))
-							{
-								$n=$n+1;
-								$cid=$r['ctg_id'];
-								$sq="select ctg_name from tbl_tutrl_ctg where ctg_id=$cid";
-								$res1=mysqli_query($con,$sq);
-								$r1=mysqli_fetch_assoc($res1);
-                        		echo
-									"<tr>
-									<th scope='row'>$n</th>
-                        			<td class='text-left'>".$r['tutrl_name']."</td>
-									<td class='text-left'>".$r1['ctg_name']."</td>
-                       				<td class='text-left'><video width='200' height='200' controls>
-									<source src='../tutorial_video/".$r['video']."'type='video/mp4'></video>
-									</td>
-                        			<td class='text-left'>".$r['amount']."</td>
-                        			<td class='text-left'>".$r['pay_date']."</td>
-									
-                       				</tr>";
-							
-								
-							}
-						?>
+								if(isset($_POST['submit']))
+								{
+									$pay_id=$_POST['pay'];
+									echo $pay_id;
+									echo "<script>document.getElementById('dt').value='$pay_id';</script>";
+									$sql="select first_name,last_name,house_name";
+									$sql="Select u.first_name,u.last_name,p.amount,p.pay_date from tbl_user u inner join tbl_admin_payment p on p.user_id=u.user_id where p.pay_ctg_id='$pay_id';";
+									echo $sql;
+									$res=mysqli_query($con,$sql);
+									while($r=mysqli_fetch_assoc($res))
+									{	
+										$n=$n+1;
+										echo
+											"<tr>
+											<th scope='row'>$n</th>
+											<td>".$r['first_name']." ".$r['last_name']."</td>
+											<td>".$r['amount']."</td>
+											<td>".$r['pay_date']."</td></tr>";
+										
+									}
+								}	
+							?>
 							  
 							  
 						  </tbody>

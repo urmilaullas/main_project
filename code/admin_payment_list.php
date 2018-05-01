@@ -127,9 +127,9 @@ include "dbconnection.php";
 					<li class="menu-item-has-children dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Payments</a>
 						<ul class="sub-menu children dropdown-menu">
-							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Payments List</a></li>
+							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_payment_list.php">Payments List</a></li>
 							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_payment_new.php">Add New Payments</a></li>
-							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Paid Users List</a></li>
+							<li><i class="menu-icon ti-themify-logo"></i><a href="admin_paid_users.php">Paid Users List</a></li>
 							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">Payment Pending</a></li>
 						</ul>
                     </li>
@@ -228,6 +228,7 @@ include "dbconnection.php";
 									  <th scope="col">#</th>
 									  <th scope="col">Payment Category</th>
 									  <th scope="col">Year</th>
+									  <th scope="col">Amount</th>
 									  <th scope="col">Status</th>
 									  <th scope="col">Change Status</th>
 								  </tr>
@@ -237,10 +238,11 @@ include "dbconnection.php";
 							  
 								<?php
 								$n=0;
-								$sql="Select pay_ctg_id,ctg_name,pay_year,amount case
+								$sql="Select pay_ctg_id,ctg_name,pay_year,amount, case
 when status=1 then 'Active'
 when status=0 then 'Deactive'
 END AS status from tbl_payment_ctg";
+
 								$res=mysqli_query($con,$sql);
 								while($r=mysqli_fetch_assoc($res))
 								{	
@@ -250,7 +252,7 @@ END AS status from tbl_payment_ctg";
 										<th scope='row'>$n</th>
 										<td>".$r['ctg_name']."</td>
 										<td>".$r['pay_year']."</td>
-										<td>".$r['amout']."</td>
+										<td>".$r['amount']."</td>
 										<td>".$r['status']."</td>";
 										if($r['status']=='Active')
 										{
