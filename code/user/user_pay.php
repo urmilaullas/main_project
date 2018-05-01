@@ -1,8 +1,5 @@
 <?php
 session_start();
-$pid=$_POST['slctcategory'];
-$_SESSION['pay_id']=$pid;
-
 ?>
 <!DOCTYPE html>
 <html>

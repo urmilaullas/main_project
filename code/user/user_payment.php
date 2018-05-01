@@ -1,16 +1,23 @@
 <?php
 session_start();
 include "dbconnection.php";
+ if(!empty($_GET["x"]))
+{
+	if($_GET["x"]==1)
+	echo "<script>alert('You Have Already Payed!!!');</script>";
+	else
+	echo "<script>alert('Payment Has Been Successfully Completed!!!');</script>";
+		} 
 
 
-  $query = "SELECT pay_ctg_id,ctg_name,pay_year FROM tbl_payment_ctg";
+  $query = "SELECT pay_ctg_id,ctg_name,pay_year FROM tbl_payment_ctg where status=1";
   $result = $con->query($query);
 
   while($row = $result->fetch_assoc()){
     $categories[] = array("id" => $row['pay_ctg_id'], "val" => $row['ctg_name']." ".$row['pay_year']);
   }
 
-  $query = "SELECT pay_ctg_id,amount FROM tbl_payment_ctg";
+  $query = "SELECT pay_ctg_id,amount FROM tbl_payment_ctg where status=1";
   $result = $con->query($query);
 
   while($row = $result->fetch_assoc()){
@@ -168,7 +175,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</ul>
 					</li>
 					<li><a href="user_complaints.php">Compliants</a></li>
-					<li><a href="#">Payments</a></li>
+					<li><a href="user_payment.php">Payments</a></li>
 					<li><a href="#">Reports</a></li>
 					<li><a href="#">Logout</a></li>
 				</ul>
@@ -202,7 +209,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<h3 class="tittle">Payments</h3>
 			<div class="inner_sec_info">
 				<div class="profile">
-					<form action="user_pay.php" target="_blank" method="post" enctype="multipart/form-data"  onsubmit="return Validate(this);">
+					<form action="check_pay.php" method="post" enctype="multipart/form-data"  onsubmit="return Validate(this);">
 						<table align="center" cellpadding="20px" cellspacing="20px" width="100%" height="10%">
 							<tr>
 								<td  style="padding:10px;border-bottom:10px;margin-right=200px;">

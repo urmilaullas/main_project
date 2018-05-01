@@ -131,7 +131,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</ul>
 					</li>
 					<li><a href="user_complaints.php">Compliants</a></li>
-					<li><a href="#">Payments</a></li>
+					<li><a href="user_payment.php">Payments</a></li>
 					<li><a href="#">Reports</a></li>
 					<li><a href="#">Logout</a></li>
 				</ul>
@@ -194,7 +194,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </thead>
                 <tbody>
 					<?php
-					 		$sql="Select first_name,last_name,age,gender,blood_grp,house_name,house_no,phone from tbl_user";
+					 		$sql="Select first_name,last_name,age,gender,blood_grp,house_name,house_no,phone from tbl_user where user_type=1";
 							$res=mysqli_query($con,$sql);
 							$n=0;
 							while($r=mysqli_fetch_assoc($res))
