@@ -23,7 +23,6 @@ include "dbconnection.php";
     <link rel="stylesheet" href="assets/css/themify-icons.css">
     <link rel="stylesheet" href="assets/css/flag-icon.min.css">
     <link rel="stylesheet" href="assets/css/cs-skin-elastic.css">
-    <link rel="stylesheet" href="assets/css/lib/datatable/dataTables.bootstrap.min.css">
     <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
     <link rel="stylesheet" href="assets/scss/style.css">
 
@@ -130,7 +129,7 @@ include "dbconnection.php";
 					<li class="menu-item-has-children dropdown">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-bar-chart"></i>Reports</a>
 						<ul class="sub-menu children dropdown-menu">
-							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="admin_add_report.php">Add Reports</a></li>
+							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Add Reports</a></li>
 							<li><i class="menu-icon ti-themify-logo"></i><a href="font-themify.html">View Reports</a></li>
 							<li><i class="menu-icon fa fa-fort-awesome"></i><a href="font-fontawesome.html">Generate Report</a></li>
 						</ul>
@@ -199,8 +198,8 @@ include "dbconnection.php";
                     <div class="page-title">
                         <ol class="breadcrumb text-right">
                             <li><a href="#">Dashboard</a></li>
-                            <li><a href="#">Payments</a></li>
-                            <li class="active">Paiment Pending  Users</li>
+                            <li><a href="#">Reports</a></li>
+                            <li class="active">Paid Users Report</li>
                         </ol>
                     </div>
                 </div>
@@ -214,34 +213,35 @@ include "dbconnection.php";
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <strong class="card-title">Paiment Pending Users List</strong>
+                            <strong class="card-title">Paid Users List</strong>
 							<hr>
 							<div>
-							<form method="post">
-								<label>Select Payment Category</label>
-								<select class="form-control-sm form-control" name="pay" id="dt" style="width:200px; display:inline; margin-right:20px;">
-								<option>Please Select</option>
+								<table id="bootstrap-data-table"  class="table table-bordered" >
 								<?php
-									$sql="select pay_ctg_id,ctg_name,pay_year from tbl_payment_ctg";
+									$pay_id=$_SESSION['pay'];
+									$sql="select ctg_name,pay_year,amount from tbl_payment_ctg where pay_ctg_id=$pay_id";
 									$res=mysqli_query($con,$sql);
 									while($r=mysqli_fetch_assoc($res))
 									{
-										echo "<option value=".$r['pay_ctg_id'].">".$r['ctg_name']." ".$r['pay_year']."</option>";
+										
+										echo "<tr><th scope='row'>Category</th>
+										<td>".$r['ctg_name']." ".$r['pay_year']."</td></tr>
+										<tr><th scope='row'>Amount</th>
+										<td>".$r['amount']."</td></tr>";
 									}
-								?>
-								</select>
-								<input type="Submit" value="Search" name="submit" class="btn btn-outline-primary btn-lg" style="width:175px;">
-							</form>
+									?>
+								</table>
 							</div>
                         </div>
                         <div class="card-body">
-                  <table id="bootstrap-data-table"  class="table table-striped table-bordered" >
+                  <table id="bootstrap-data-table"  class="table table-bordered" >
                   <thead>
 									<tr>
 									  <th scope="col">#</th>
 									  <th scope="col">Name</th>
 									  <th scope="col">House Name</th>
-									  <th scope="col">House NO</th>
+									  <th scope="col">Amount</th>
+									  <th scope="col">Date</th>
 								  </tr>
 							  </thead>
 							  <tbody>
@@ -249,12 +249,9 @@ include "dbconnection.php";
 							  
 								<?php
 								$n=0;
-								if(isset($_POST['submit']))
-								{
-									$pay_id=$_POST['pay'];
-									echo $pay_id;
+									
 									echo "<script>document.getElementById('dt').value='$pay_id';</script>";
-									$sql="select first_name,last_name,house_name,house_no from tbl_user where user_id not in(select user_id from tbl_admin_payment where pay_ctg_id='$pay_id') and user_type=1;";
+									$sql="Select u.first_name,u.last_name,u.house_name,p.amount,p.pay_date from tbl_user u inner join tbl_admin_payment p on p.user_id=u.user_id where p.pay_ctg_id='$pay_id';";
 									$res=mysqli_query($con,$sql);
 									while($r=mysqli_fetch_assoc($res))
 									{	
@@ -264,16 +261,21 @@ include "dbconnection.php";
 											<th scope='row'>$n</th>
 											<td>".$r['first_name']." ".$r['last_name']."</td>
 											<td>".$r['house_name']."</td>
-											<td>".$r['house_no']."</td></tr>";
+											<td>".$r['amount']."</td>
+											<td>".$r['pay_date']."</td></tr>";
 										
 									}
-								}	
+									
+									
 							?>
 							  
 							  
 						  </tbody>
                   </table>
+				  		<button onclick="window.print()" class="btn btn-outline-secondary"><i class="fa fa-print"></i> Print</button>
+
                         </div>
+		
                     </div>
                 </div>
 
@@ -294,24 +296,7 @@ include "dbconnection.php";
     <script src="assets/js/main.js"></script>
 
 
-    <script src="assets/js/lib/data-table/datatables.min.js"></script>
-    <script src="assets/js/lib/data-table/dataTables.bootstrap.min.js"></script>
-    <script src="assets/js/lib/data-table/dataTables.buttons.min.js"></script>
-    <script src="assets/js/lib/data-table/buttons.bootstrap.min.js"></script>
-    <script src="assets/js/lib/data-table/jszip.min.js"></script>
-    <script src="assets/js/lib/data-table/pdfmake.min.js"></script>
-    <script src="assets/js/lib/data-table/vfs_fonts.js"></script>
-    <script src="assets/js/lib/data-table/buttons.html5.min.js"></script>
-    <script src="assets/js/lib/data-table/buttons.print.min.js"></script>
-    <script src="assets/js/lib/data-table/buttons.colVis.min.js"></script>
-    <script src="assets/js/lib/data-table/datatables-init.js"></script>
 
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-          $('#bootstrap-data-table-export').DataTable();
-        } );
-    </script>
 
 
 </body>
