@@ -133,7 +133,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</li>
 					<li><a href="user_complaints.php">Compliants</a></li>
 					<li><a href="user_payment.php">Payments</a></li>
-					<li><a href="#">Reports</a></li>
+					<li><a href="user_report_view.php">Reports</a></li>
 					<li><a href="#">Logout</a></li>
 				</ul>
 			</div>

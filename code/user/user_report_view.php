@@ -1,9 +1,6 @@
 <?php
-if(!empty($_GET["x"]))
-{
-	
-	echo "<script>alert('Your Request Has Been Sended Successfully!!!');</script>";
-}
+session_start();
+include "dbconnection.php";
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -23,6 +20,58 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		function hideURLbar() {
 			window.scrollTo(0, 1);
 		}
+	
+	  
+function Validate(oForm) {
+	
+		
+		var _validFileExtensions = [".pdf"]; 
+		var _validFileExtensionsimg = [".jpeg",".png","jpg"]; 
+	
+    var arrInputs = oForm.getElementsByTagName("input");
+    for (var i = 0; i < arrInputs.length; i++) {
+        var oInput = arrInputs[i];
+        if (oInput.type == "file" && oInput.id=="bookfile") {
+            var sFileName = oInput.value;
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensions.length; j++) {
+                    var sCurExtension = _validFileExtensions[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        break;
+                    }
+                }
+                
+                if (!blnValid) {
+                    alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensions.join(", "));
+                    return false;
+                }
+            }
+        }
+		if (oInput.type == "file" && oInput.id=="bookimg") {
+            var sFileName = oInput.value;
+            if (sFileName.length > 0) {
+                var blnValid = false;
+                for (var j = 0; j < _validFileExtensionsimg.length; j++) {
+                    var sCurExtension = _validFileExtensionsimg[j];
+                    if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                        blnValid = true;
+                        break;
+                    }
+                }
+                
+                if (!blnValid) {
+                    alert("Sorry, " + sFileName + " is invalid, allowed extensions are: " + _validFileExtensionsimg.join(", "));
+                    return false;
+                }
+            }
+        }
+    }
+  
+    return true;
+}
+
 	</script>
 	<!-- //Meta Tags -->
 	<!-- Style-sheets -->
@@ -48,6 +97,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 	<!-- //Web-fonts -->
 
+	
+	
+	
 </head>
 
 <body>
@@ -139,7 +191,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					
 					<span>| |</span>
 				</li>
-				<li>Cleaning</li>
+				<li>Reports</li>
 			
 			</ul>
 		</div>
@@ -149,30 +201,26 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<!-- /inner_content -->
 	<div class="banner_bottom">
 		<div class="container">
-			<h3 class="tittle">Cleaning</h3>
+			<h3 class="tittle">Reports</h3>
 			<div class="inner_sec_info">
 				<div class="profile">
-					<form action="clean_rqst.php" method="post">
+				
+						<table>
+							<?php
+							$sql="Select rpt_id,rpt_name,description,file from tbl_report";
+							$res=mysqli_query($con,$sql);
+							while($r=mysqli_fetch_assoc($res))
+								{
+									echo "<tr><td>";
+									echo "<div style='margin-left:30px;margin-right:30px;margin-top:30px;text-align:center;'><a href='../reports/".$r['file']."' target='_blank'><img width='100' height='100' src='../creative_corner/pdf_img.png'></a>
+										</td><td>".$r['rpt_name']."<br/>".$r['description']."
+										";
+									echo "</td></tr>";
+																		
+								}
+							?>
 						
-						<div>
-							<input type="text" name="subjcet" placeholder="subjcet" required>
-						</div>
-						<div>
-							<textarea name="rqst" id="rqst" placeholder="Details" required></textarea>
-						</div>
-						<div>
-							<input type="submit" value="Send">
-							<input type="reset" value="Cancel">
-						</div>
-						<div>
-								<br><br><br>
-								<h3 align="center" style="color:#f44259;">Click Here To Send Request To Collect Waste</h3>
-							</div>
-							<div align="Center">
-							<br><br><br>
-							<input type="button" value="Request To Collect Waste" onclick="window.location ='wst_collect.php'">
-						</div>
-					</form>
+						</table>	
 				</div>
 			
 			</div>
